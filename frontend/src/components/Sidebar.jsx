@@ -1,13 +1,6 @@
-import { LayoutDashboard, History, BarChart3, Zap, Moon, Sun, Rocket, ExternalLink } from 'lucide-react';
-import { useState } from 'react';
+import { LayoutDashboard, Zap, Moon, Sun, Rocket, ExternalLink } from 'lucide-react';
 
-export default function Sidebar({ activeTab = 'dashboard', onTabChange, darkMode, setDarkMode }) {
-  const navItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { id: 'history', label: 'History', icon: History },
-    { id: 'reports', label: 'Reports', icon: BarChart3 },
-  ];
-
+export default function Sidebar({ darkMode, setDarkMode }) {
   return (
     <aside className="w-64 bg-[#0C0A1B] border-r border-[#1E1838] min-h-screen flex flex-col justify-between p-5 select-none shrink-0">
       {/* Brand Header */}
@@ -26,26 +19,12 @@ export default function Sidebar({ activeTab = 'dashboard', onTabChange, darkMode
           </div>
         </div>
 
-        {/* Navigation List */}
-        <nav className="mt-8 space-y-1.5">
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = activeTab === item.id;
-            return (
-              <button
-                key={item.id}
-                onClick={() => onTabChange && onTabChange(item.id)}
-                className={`w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200 ${
-                  isActive
-                    ? 'bg-gradient-to-r from-purple-600/90 to-indigo-600/90 text-white shadow-[0_0_20px_rgba(124,58,237,0.4)] border border-purple-400/30'
-                    : 'text-slate-400 hover:text-white hover:bg-[#16122D]'
-                }`}
-              >
-                <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-slate-400'}`} />
-                <span>{item.label}</span>
-              </button>
-            );
-          })}
+        {/* Navigation List (Dashboard Only) */}
+        <nav className="mt-8">
+          <div className="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-semibold bg-gradient-to-r from-purple-600/90 to-indigo-600/90 text-white shadow-[0_0_20px_rgba(124,58,237,0.4)] border border-purple-400/30">
+            <LayoutDashboard className="w-4 h-4 text-white" />
+            <span>Dashboard</span>
+          </div>
         </nav>
       </div>
 

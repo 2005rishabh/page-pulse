@@ -13,8 +13,7 @@ import { useAnalyze } from '../hooks/useAnalyze';
 
 export default function Home() {
   const { results, loading, error, validationError, analyze, clearResults } = useAnalyze();
-  const [url, setUrl] = useState('https://en.wikipedia.org/wiki/Virat_Kohli');
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const [url, setUrl] = useState('');
   const [darkMode, setDarkMode] = useState(true);
 
   // Sync dark mode class on document element
@@ -26,11 +25,6 @@ export default function Home() {
     }
   }, [darkMode]);
 
-  // Perform initial demo analysis on mount so the user sees real populated data matching the image!
-  useEffect(() => {
-    analyze('https://en.wikipedia.org/wiki/Virat_Kohli');
-  }, [analyze]);
-
   const handleAnalyze = async (inputUrl) => {
     setUrl(inputUrl);
     await analyze(inputUrl);
@@ -38,10 +32,8 @@ export default function Home() {
 
   return (
     <div className="flex min-h-screen bg-[#090713] text-slate-100 selection:bg-purple-600 selection:text-white">
-      {/* Left Navigation Sidebar */}
+      {/* Left Navigation Sidebar (Dashboard Only) */}
       <Sidebar
-        activeTab={activeTab}
-        onTabChange={setActiveTab}
         darkMode={darkMode}
         setDarkMode={setDarkMode}
       />
@@ -53,32 +45,33 @@ export default function Home() {
 
         {/* Content Area */}
         <main className="flex-1 p-6 sm:p-8 max-w-7xl w-full mx-auto space-y-8">
-          {activeTab === 'dashboard' && (
-            <>
-              {/* Hero & Audit Input Search Bar */}
-              <UrlForm
-                onSubmit={handleAnalyze}
-                loading={loading}
-                results={results}
-                currentUrl={url}
-              />
+          {/* Hero & Audit Input Search Bar */}
+          <UrlForm
+            onSubmit={handleAnalyze}
+            loading={loading}
+            results={results}
+            currentUrl={url}
+          />
 
-              {/* Error Alerts */}
-              {validationError && (
-                <div className="mb-6">
-                  <ErrorAlert message={validationError} />
-                </div>
-              )}
+          {/* Error Alerts */}
+          {validationError && (
+            <div className="mb-6">
+              <ErrorAlert message={validationError} />
+            </div>
+          )}
 
-              {error && (
-                <div className="mb-6">
-                  <ErrorAlert message={error} onDismiss={clearResults} />
-                </div>
-              )}
+          {error && (
+            <div className="mb-6">
+              <ErrorAlert message={error} onDismiss={clearResults} />
+            </div>
+          )}
 
-              {/* Loading State */}
-              {loading && <LoadingSpinner />}
+          {/* Loading State */}
+          {loading && <LoadingSpinner />}
 
+          {/* Render Metrics & Cards ONLY when analysis results exist */}
+          {results && !loading && (
+            <div className="space-y-8 animate-fadeIn">
               {/* Top 7 Metrics Grid */}
               <ResultGrid results={results} />
 
@@ -88,23 +81,18 @@ export default function Home() {
                 <Recommendations results={results} />
                 <RecentAnalyses onSelectUrl={handleAnalyze} />
               </div>
-            </>
-          )}
-
-          {activeTab === 'history' && (
-            <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-white">Audit History</h2>
-              <RecentAnalyses onSelectUrl={(u) => { setActiveTab('dashboard'); handleAnalyze(u); }} />
             </div>
           )}
 
-          {activeTab === 'reports' && (
-            <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-white">Reports Overview</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <PerformanceGauge results={results} />
-                <Recommendations results={results} />
-              </div>
+          {/* Empty State Instructions when no analysis has been run yet */}
+          {!results && !loading && !error && (
+            <div className="text-center py-16 text-slate-500 border border-dashed border-[#1E1838] rounded-2xl bg-[#0C0A1B]/50">
+              <p className="text-base font-semibold text-slate-400">
+                Enter any website URL above to start instant analysis.
+              </p>
+              <p className="text-xs text-slate-500 mt-1">
+                Metrics for performance, SEO metadata, heading hierarchy, and accessibility will appear here.
+              </p>
             </div>
           )}
 

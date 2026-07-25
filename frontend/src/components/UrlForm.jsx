@@ -32,7 +32,7 @@ export default function UrlForm({ onSubmit, loading, results, currentUrl }) {
               <input
                 type="text"
                 name="url"
-                defaultValue={currentUrl || 'https://en.wikipedia.org/wiki/Virat_Kohli'}
+                defaultValue={currentUrl || ''}
                 placeholder="https://example.com"
                 className="w-full bg-transparent text-white placeholder-slate-500 text-sm sm:text-base px-2 py-3 focus:outline-none font-medium"
                 disabled={loading}
@@ -50,34 +50,31 @@ export default function UrlForm({ onSubmit, loading, results, currentUrl }) {
           </form>
 
           {/* Status Line */}
-          <div className="flex flex-wrap items-center gap-4 text-xs font-semibold text-slate-400 pt-1">
-            <div className="flex items-center gap-1.5 text-purple-300 bg-purple-950/40 px-3 py-1.5 rounded-lg border border-purple-800/40">
-              <CheckCircle2 className="w-4 h-4 text-purple-400" />
-              <span>{results ? 'Analysis completed successfully' : 'Ready to analyze website'}</span>
-            </div>
-            {results && (
+          {results && (
+            <div className="flex flex-wrap items-center gap-4 text-xs font-semibold text-slate-400 pt-1">
+              <div className="flex items-center gap-1.5 text-purple-300 bg-purple-950/40 px-3 py-1.5 rounded-lg border border-purple-800/40">
+                <CheckCircle2 className="w-4 h-4 text-purple-400" />
+                <span>Analysis completed successfully</span>
+              </div>
               <div className="flex items-center gap-1.5 text-slate-300 bg-[#161132] px-3 py-1.5 rounded-lg border border-[#281F4D]">
                 <Clock className="w-3.5 h-3.5 text-indigo-400" />
                 <span>Took {(results.responseTime / 1000).toFixed(2)} seconds</span>
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
 
-        {/* Right Side: Futuristic Translucent 3D Graphic (Matching Reference Image) */}
+        {/* Right Side: Translucent 3D Graphic */}
         <div className="hidden lg:block lg:col-span-4 relative">
           <div className="relative w-full h-48 rounded-2xl bg-gradient-to-br from-[#1A133A]/80 to-[#0F0B24]/90 border border-[#2F245D] p-5 overflow-hidden shadow-[0_0_35px_rgba(124,58,237,0.25)] backdrop-blur-xl group">
-            {/* Ambient Background Glow */}
             <div className="absolute -top-10 -right-10 w-40 h-40 bg-purple-600/30 rounded-full blur-3xl pointer-events-none" />
             <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-indigo-600/30 rounded-full blur-3xl pointer-events-none" />
 
-            {/* Glowing wave graphics in background */}
             <svg className="absolute inset-0 w-full h-full opacity-30" viewBox="0 0 300 200" fill="none">
               <path d="M0,150 Q75,90 150,130 T300,100" stroke="#8B5CF6" strokeWidth="3" fill="none" />
               <path d="M0,170 Q75,120 150,150 T300,120" stroke="#6366F1" strokeWidth="2" strokeDasharray="4 4" fill="none" />
             </svg>
 
-            {/* Translucent Card with Lightning Bolt */}
             <div className="absolute top-4 right-4 w-44 h-36 bg-gradient-to-br from-purple-500/20 to-indigo-600/30 backdrop-blur-2xl border border-purple-400/40 rounded-2xl p-4 shadow-[0_10px_30px_rgba(0,0,0,0.5)] transform rotate-3 group-hover:rotate-0 transition-transform duration-300 flex flex-col justify-between">
               <div className="flex items-center justify-between">
                 <div className="flex gap-1.5">
