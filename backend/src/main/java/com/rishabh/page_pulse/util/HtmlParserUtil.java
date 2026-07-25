@@ -25,10 +25,23 @@ public final class HtmlParserUtil {
     }
 
     public static String extractMetaDescription(Document document) {
-        Element description = document.selectFirst("meta[name=description]");
-        if (description != null) {
-            return description.attr("content").trim();
+        Elements metaTags = document.select("meta");
+
+        for (Element metaTag : metaTags) {
+            String name = metaTag.attr("name");
+            String property = metaTag.attr("property");
+            String content = metaTag.attr("content");
+
+            if (name != null && !name.isBlank() && name.equalsIgnoreCase("description") && !content.isBlank()) {
+                return content.trim();
+            }
+
+            if (property != null && !property.isBlank() && property.equalsIgnoreCase("og:description")
+                    && !content.isBlank()) {
+                return content.trim();
+            }
         }
+
         return "";
     }
 
