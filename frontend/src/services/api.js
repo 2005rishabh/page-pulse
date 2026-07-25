@@ -1,6 +1,19 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8080/api';
+// Fall back to live Render backend if running on production domain (e.g. Vercel)
+const isLocalhost = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+
+const defaultBackend = isLocalhost
+  ? 'http://localhost:8080/api'
+  : 'https://page-pulse-backend-yhsz.onrender.com/api';
+
+let baseUrl = import.meta.env.VITE_API_URL || defaultBackend;
+baseUrl = baseUrl.trim();
+if (!baseUrl.endsWith('/api')) {
+  baseUrl = baseUrl.replace(/\/+$/, '') + '/api';
+}
+
+const API_BASE_URL = baseUrl;
 
 export const analyzeUrl = async (url) => {
   try {
