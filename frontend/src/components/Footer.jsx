@@ -1,20 +1,20 @@
+import { Heart } from 'lucide-react';
+
 export default function Footer() {
   return (
-    <footer className="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 mt-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="text-center">
-          <p className="text-slate-600 dark:text-slate-400">
-            Built for Digital Heroes Training Task
-          </p>
-          <a
-            href="https://digitalheroesco.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-600 dark:text-blue-400 hover:underline mt-2 inline-block"
-          >
-            digitalheroesco.com
-          </a>
-        </div>
+    <footer className="mt-12 py-6 border-t border-[#1C1635] text-center text-xs text-slate-400">
+      <div className="flex flex-wrap items-center justify-center gap-2">
+        <span>© {new Date().getFullYear()} Page Pulse. All rights reserved.</span>
+        <span className="text-slate-600">•</span>
+        <Heart className="w-3.5 h-3.5 text-red-500 fill-red-500 inline" />
+        <a
+          href="https://digitalheroesco.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-purple-400 hover:text-purple-300 hover:underline font-semibold transition-colors"
+        >
+          Built for Digital Heroes Training Task
+        </a>
       </div>
     </footer>
   );
